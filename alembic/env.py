@@ -4,10 +4,11 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-
+from app.config import settings
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+config.set_main_option("sqlalchemy.url", settings.postgres_connection_string)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -18,13 +19,15 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+from app.db.models import FedresursRecord  # noqa
+from app.db.models import KadRecord  # noqa
+from app.db.models import Base
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
@@ -57,6 +60,10 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
+    postgres_dsn = settings.postgres_connection_string
+    postgres_dsn = postgres_dsn.replace("asyncpg", "psycopg2")
+
+    config.set_main_option("sqlalchemy.url", postgres_dsn)
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
@@ -64,9 +71,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
