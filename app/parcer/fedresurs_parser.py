@@ -19,18 +19,22 @@ class FedresursParser:
         await page.keyboard.press("Enter")
         await page.wait_for_timeout(5000)
 
-        # Ждем появления ссылочного блока
-        await page.wait_for_selector('a.info.info_position >> text=Вся информация', timeout=10000)
-
-        # Кликаем по нему
+        # Ждем появления ссылочного блока "Вся информация"
         element = await page.query_selector('a.info.info_position >> text=Вся информация')
-        if element:
-            await element.click()
-            await page.wait_for_timeout(2000)  # даем странице подгрузить содержимое
-        else:
-            logger.info("Не найден элемент 'Вся информация'")
 
-        await page.wait_for_timeout(2000)
+        if not element:
+            logger.warning(f"ИНН {inn}: данные не найдены, элемент 'Вся информация' отсутствует")
+            # Возвращаем результат с None
+            return {
+                "inn": inn,
+                "case_number": None,
+                "last_date": None,
+            }
+
+        # Если элемент есть — кликаем и продолжаем как обычно
+        await element.click()
+        await page.wait_for_timeout(2000)  # даем странице подгрузить содержимое
+
 
         # 3️⃣ Разворачиваем блок "Сведения о банкротстве"
         elements = await page.query_selector_all('div.nav-menu-item-description')

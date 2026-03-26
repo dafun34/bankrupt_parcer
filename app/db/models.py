@@ -9,8 +9,8 @@ class FedresursRecord(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     inn: Mapped[str] = mapped_column(String(20), nullable=False)
-    case_number: Mapped[str] = mapped_column(String(100))
-    last_date: Mapped[datetime]
+    case_number: Mapped[str] = mapped_column(String(100), nullable=True)
+    last_date: Mapped[datetime] = mapped_column(nullable=True)
     parsed_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
 
     __table_args__ = (
@@ -23,8 +23,8 @@ class KadRecord(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     case_number: Mapped[str] = mapped_column(String(50), nullable=False)
-    last_date: Mapped[datetime]
-    document_name: Mapped[str] = mapped_column(Text)
+    last_date: Mapped[datetime] = mapped_column(nullable=True)
+    document_name: Mapped[str] = mapped_column(Text, nullable=True)
     parsed_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
 
     __table_args__ = (

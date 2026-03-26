@@ -1,4 +1,4 @@
-FROM python:3.13-slim
+FROM python:3.11-slim
 ENV PYTHONUNBUFFERED "1"
 
 # Устанавливаем рабочую директорию
@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 
 # Синхронизируем зависимости через uv
-COPY pyproject.toml.bak .
+COPY pyproject.toml .
 RUN pip install uv && uv pip install . --system
 
 COPY ./app ./app
