@@ -1,8 +1,8 @@
 """init
 
-Revision ID: e5ae9caa97b5
+Revision ID: 636923eb3e25
 Revises: 
-Create Date: 2026-03-26 10:34:36.769114
+Create Date: 2026-03-26 21:04:23.040853
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'e5ae9caa97b5'
+revision: str = '636923eb3e25'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -24,20 +24,23 @@ def upgrade() -> None:
     op.create_table('fedresurs_records',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('inn', sa.String(length=20), nullable=False),
-    sa.Column('case_number', sa.String(length=100), nullable=True),
+    sa.Column('case_number', sa.String(length=50), nullable=False),
     sa.Column('last_date', sa.DateTime(), nullable=True),
+    sa.Column('document_name', sa.String(length=500), nullable=True),
     sa.Column('parsed_at', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('inn', name='uix_fedresurs_inn')
+    sa.UniqueConstraint('inn')
     )
     op.create_table('kad_records',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('case_number', sa.String(length=50), nullable=False),
     sa.Column('last_date', sa.DateTime(), nullable=True),
-    sa.Column('document_name', sa.Text(), nullable=True),
+    sa.Column('document_name', sa.String(), nullable=True),
     sa.Column('parsed_at', sa.DateTime(), nullable=False),
+    sa.Column('fedresurs_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['fedresurs_id'], ['fedresurs_records.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('case_number', name='uix_kad_case')
+    sa.UniqueConstraint('case_number')
     )
     # ### end Alembic commands ###
 
