@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 
 # Синхронизируем зависимости через uv
-COPY ./pyproject.toml .
+COPY pyproject.toml.bak .
 RUN pip install uv && uv pip install . --system
 
 COPY ./app ./app
