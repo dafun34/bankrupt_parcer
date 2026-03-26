@@ -57,9 +57,12 @@ class FedresursParser:
         last_date_text = (await pub_item_el.text_content()).strip() if pub_item_el else None
 
         # Выделяем только дату
-        last_date_match = re.search(r'от (\d{2}\.\d{2}\.\d{4})', last_date_text)
-        date_str = last_date_match.group(1) if last_date_match else None
-        last_date = datetime.strptime(date_str, "%d.%m.%Y")
+        last_date = None
+        if last_date_text:
+            last_date_match = re.search(r'от (\d{2}\.\d{2}\.\d{4})', last_date_text)
+            if last_date_match:
+                date_str = last_date_match.group(1)
+                last_date = datetime.strptime(date_str, "%d.%m.%Y")
 
         result = {
             "inn": inn,
