@@ -1,6 +1,9 @@
 import re
 
 from datetime import datetime
+
+from playwright.async_api import Page
+
 from app.parcer.chrome_connector import ChromeConnector
 from app.logging_config import logger
 
@@ -9,9 +12,7 @@ class FedresursParser:
     def __init__(self, chrome_connector: ChromeConnector):
         self.chrome_connector = chrome_connector
 
-    async def parse_inn(self, inn: str) -> dict:
-        page = await self.chrome_connector.new_page()
-
+    async def parse_inn(self, inn: str, page: Page) -> dict:
         # 1️⃣ Переходим на страницу и вводим ИНН
         await page.goto("https://fedresurs.ru/")
         await page.wait_for_selector('input[formcontrolname="searchString"]')

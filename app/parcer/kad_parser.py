@@ -1,6 +1,9 @@
 import asyncio
 import re
 from datetime import datetime
+
+from playwright.async_api import Page
+
 from app.parcer.chrome_connector import ChromeConnector
 from app.logging_config import logger
 
@@ -8,8 +11,7 @@ class KadParser:
     def __init__(self, chrome_connector: ChromeConnector):
         self.chrome_connector = chrome_connector
 
-    async def parse_case(self, case_number: str) -> dict:
-        page = await self.chrome_connector.new_page()
+    async def parse_case(self, case_number: str, page: Page) -> dict:
 
         await page.goto("https://kad.arbitr.ru/")
 
