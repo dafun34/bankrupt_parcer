@@ -6,11 +6,11 @@ from app.logging_config import logger
 
 
 class FedresursParser:
-    def __init__(self):
-        self.chrome_connector = ChromeConnector()
+    def __init__(self, chrome_connector: ChromeConnector):
+        self.chrome_connector = chrome_connector
 
     async def parse_inn(self, inn: str) -> dict:
-        page = await self.chrome_connector.connect()
+        page = await self.chrome_connector.new_page()
 
         # 1️⃣ Переходим на страницу и вводим ИНН
         await page.goto("https://fedresurs.ru/")

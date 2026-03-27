@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 from app.db.session import run_migrations
 from app.logging_config import logger
+from app.parcer.chrome_connector import ChromeConnector
 from app.services.bankruptcy_service import BankruptcyService
 from app.utils.excel_reader import read_excel_file
 from app.config import settings
@@ -25,7 +26,9 @@ async def main():
 
     logger.info(f"Loaded {len(values)} INNs")
 
-    service = BankruptcyService()
+    async with ChromeConnector(cdp_url="http://localhost:9222") as chrome:
+        service = BankruptcyService(chrome)
+        await service.process_inns(values)
 
     # Обработка списка ИНН (100+)
     await service.process_inns(values)

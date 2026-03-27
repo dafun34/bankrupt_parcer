@@ -5,11 +5,11 @@ from app.parcer.chrome_connector import ChromeConnector
 from app.logging_config import logger
 
 class KadParser:
-    def __init__(self):
-        self.chrome_connector = ChromeConnector()
+    def __init__(self, chrome_connector: ChromeConnector):
+        self.chrome_connector = chrome_connector
 
     async def parse_case(self, case_number: str) -> dict:
-        page = await self.chrome_connector.connect()
+        page = await self.chrome_connector.new_page()
 
         await page.goto("https://kad.arbitr.ru/")
 
