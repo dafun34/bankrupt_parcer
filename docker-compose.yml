@@ -19,6 +19,8 @@ services:
       context: .
     env_file:
       - .env
+    environment:
+      - INPUT_FILE=/data/test.xlsx
     depends_on:
       db:
         condition: service_healthy
