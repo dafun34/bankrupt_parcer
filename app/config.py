@@ -33,6 +33,7 @@ class Settings(BaseSettings):
 
     @property
     def base_dir_path(self) -> Path:
+        """Возвращает путь к корневой папке проекта."""
         current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
         return current_dir.parent
 

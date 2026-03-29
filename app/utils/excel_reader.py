@@ -2,6 +2,7 @@ import pandas as pd
 
 
 def read_excel_file(path: str) -> list[str]:
+    """Чтение Excel файла и извлечение уникальных значений из первой колонки."""
     df = pd.read_excel(path)
 
     # Берём первую колонку

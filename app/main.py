@@ -1,16 +1,15 @@
 import asyncio
-import os
-from pathlib import Path
+
+from app.config import settings
 from app.db.session import run_migrations
 from app.logging_config import logger
 from app.parcer.chrome_connector import ChromeConnector
 from app.services.bankruptcy_service import BankruptcyService
 from app.utils.excel_reader import read_excel_file
-from app.config import settings
 
 
 async def main():
-
+    """Главная функция для запуска парсера банкротств."""
     file_path = settings.base_dir_path / settings.INPUT_FILE_PATH
 
     if not file_path:
@@ -28,7 +27,7 @@ async def main():
     logger.info(f"Loaded {len(values)} INNs")
 
     async with ChromeConnector(cdp_url=settings.CHROME_CDP_URL) as chrome:
-        service = BankruptcyService(chrome)
+        service = BankruptcyService(chrome, max_concurrent_tasks=settings.MAX_CONCURRENT_TASKS)
         await service.process_inns(values)
 
     # Обработка списка ИНН (100+)

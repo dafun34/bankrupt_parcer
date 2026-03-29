@@ -13,6 +13,7 @@ class FedresursParser:
         self.chrome_connector = chrome_connector
 
     async def parse_inn(self, inn: str, page: Page) -> dict:
+        """Парсит данные по ИНН из Федресурса. Возвращает словарь с ИНН, номером дела и датой последнего документа."""
         # 1️⃣ Переходим на страницу и вводим ИНН
         await page.goto("https://fedresurs.ru/")
         await page.wait_for_selector('input[formcontrolname="searchString"]')

@@ -12,6 +12,10 @@ class ChromeConnector:
         self.context: BrowserContext | None = None
 
     async def __aenter__(self):
+        """Подключается к существующему браузеру по CDP URL и создает контекст.
+
+        Если контекст уже есть, использует его.
+        """
         self.playwright = await async_playwright().start()
         self.browser = await self.playwright.chromium.connect_over_cdp(self.cdp_url)
 
@@ -23,12 +27,14 @@ class ChromeConnector:
         return self
 
     async def __aexit__(self, exc_type, exc, tb):
+        """Закрывает браузер и останавливает Playwright при выходе из контекста."""
         if self.browser:
             await self.browser.close()
         if self.playwright:
             await self.playwright.stop()
 
     async def new_page(self) -> Page:
+        """Создает новую страницу с случайной паузой для имитации человеческого поведения."""
         page = await self.context.new_page()
         # случайная пауза перед началом работы
         await asyncio.sleep(random.uniform(0.5, 2.0))

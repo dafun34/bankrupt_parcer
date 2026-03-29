@@ -22,7 +22,7 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 from app.db.models import FedresursRecord  # noqa
 from app.db.models import KadRecord  # noqa
-from app.db.models import Base
+from app.db.models import Base  # noqa
 
 target_metadata = Base.metadata
 
