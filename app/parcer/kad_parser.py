@@ -4,7 +4,7 @@ from datetime import datetime
 from playwright.async_api import Page
 
 from app.parcer.chrome_connector import ChromeConnector
-
+from app.logging_config import logger
 
 class KadParser:
     def __init__(self, chrome_connector: ChromeConnector):
@@ -60,7 +60,7 @@ class KadParser:
 
         document_name = re.sub(r"\[.*?\]", "", document_name).strip()
         document_name = document_name if document_name else None
-
+        logger.info("Parsed KAD case", case_number=case_number, last_date=last_date, document_name=document_name)
         return {
             "case_number": case_number,
             "last_date": last_date,

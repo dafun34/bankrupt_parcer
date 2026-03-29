@@ -71,4 +71,5 @@ class FedresursParser:
             "case_number": case_number,
             "last_date": last_date,
         }
+        logger.info("Parsed data for", inn=inn, case_number=case_number, last_date=last_date)
         return result
