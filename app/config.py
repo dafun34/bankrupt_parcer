@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     # chrome
     CHROME_CDP_URL: str = Field(description="URL for Chrome DevTools Protocol")
 
+    MAX_CONCURRENT_TASKS: int = Field(description="Максимальное количество одновременно выполняемых задач", default=3)
     @property
     def postgres_connection_string(self) -> str:
         """Формирование строки подключения к PostgreSQL."""
