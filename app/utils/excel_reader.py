@@ -8,13 +8,6 @@ def read_excel_file(path: str) -> list[str]:
     first_column = df.iloc[:, 0]
 
     # Удаляем пустые значения и приводим к строке
-    values = (
-        first_column
-        .dropna()
-        .astype(str)
-        .str.strip()
-        .unique()
-        .tolist()
-    )
+    values = first_column.dropna().astype(str).str.strip().unique().tolist()
 
     return values

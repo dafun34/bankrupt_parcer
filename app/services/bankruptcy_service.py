@@ -7,6 +7,7 @@ from app.parcer.kad_parser import KadParser
 from app.logging_config import logger
 import random
 
+
 class BankruptcyService:
     def __init__(self, chrome_connector: ChromeConnector, max_concurrent_tasks: int = 2):
         self.chrome = chrome_connector
@@ -37,7 +38,7 @@ class BankruptcyService:
                             break
                         except Exception as e:
                             logger.warning(f"Retry {attempt + 1} for INN {inn} due to {e}")
-                            await asyncio.sleep(2 ** attempt)
+                            await asyncio.sleep(2**attempt)
                         finally:
                             if page and not page.is_closed():
                                 await page.close()
@@ -58,7 +59,7 @@ class BankruptcyService:
                             break
                         except Exception as e:
                             logger.warning(f"Retry {attempt + 1} for case {case_number} due to {e}")
-                            await asyncio.sleep(2 ** attempt)
+                            await asyncio.sleep(2**attempt)
                         finally:
                             if page and not page.is_closed():
                                 await page.close()

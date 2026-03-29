@@ -4,7 +4,6 @@ from app.db.models import FedresursRecord, KadRecord
 
 
 class Repository:
-
     def __init__(self, session: AsyncSession):
         self.session = session
 
@@ -12,9 +11,7 @@ class Repository:
     # Проверка существования по ИНН
     # ==============================
     async def exists_fedresurs(self, inn: str) -> bool:
-        result = await self.session.execute(
-            select(FedresursRecord.id).where(FedresursRecord.inn == inn)
-        )
+        result = await self.session.execute(select(FedresursRecord.id).where(FedresursRecord.inn == inn))
         return result.scalar_one_or_none() is not None
 
     # ==========================================

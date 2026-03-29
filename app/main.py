@@ -8,6 +8,7 @@ from app.services.bankruptcy_service import BankruptcyService
 from app.utils.excel_reader import read_excel_file
 from app.config import settings
 
+
 async def main():
 
     file_path = settings.base_dir_path / settings.INPUT_FILE_PATH

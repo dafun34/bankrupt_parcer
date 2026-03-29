@@ -21,7 +21,7 @@ class FedresursParser:
         await page.wait_for_timeout(5000)
 
         # Ждем появления ссылочного блока "Вся информация"
-        element = await page.query_selector('a.info.info_position >> text=Вся информация')
+        element = await page.query_selector("a.info.info_position >> text=Вся информация")
 
         if not element:
             logger.warning(f"ИНН {inn}: данные не найдены, элемент 'Вся информация' отсутствует")
@@ -36,9 +36,8 @@ class FedresursParser:
         await element.click()
         await page.wait_for_timeout(2000)  # даем странице подгрузить содержимое
 
-
         # 3️⃣ Разворачиваем блок "Сведения о банкротстве"
-        elements = await page.query_selector_all('div.nav-menu-item-description')
+        elements = await page.query_selector_all("div.nav-menu-item-description")
         for el in elements:
             text = await el.text_content()
             if text and "Сведения о банкротстве" in text:
@@ -49,18 +48,19 @@ class FedresursParser:
         await page.wait_for_timeout(2000)
 
         # 1️⃣ № дела
-        case_number_el = await page.query_selector('a.info-header.underlined')
+        case_number_el = await page.query_selector("a.info-header.underlined")
         case_number = (await case_number_el.text_content()).strip() if case_number_el else None
 
         # 2️⃣ Последний документ (берем первый элемент публикации)
         pub_item_el = await page.query_selector(
-            'div.info-item-value entity-card-bankruptcy-publication-wrapper:first-child a.underlined')
+            "div.info-item-value entity-card-bankruptcy-publication-wrapper:first-child a.underlined"
+        )
         last_date_text = (await pub_item_el.text_content()).strip() if pub_item_el else None
 
         # Выделяем только дату
         last_date = None
         if last_date_text:
-            last_date_match = re.search(r'от (\d{2}\.\d{2}\.\d{4})', last_date_text)
+            last_date_match = re.search(r"от (\d{2}\.\d{2}\.\d{4})", last_date_text)
             if last_date_match:
                 date_str = last_date_match.group(1)
                 last_date = datetime.strptime(date_str, "%d.%m.%Y")

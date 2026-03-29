@@ -2,6 +2,7 @@ from playwright.async_api import async_playwright, Browser, BrowserContext, Page
 import asyncio
 import random
 
+
 class ChromeConnector:
     def __init__(self, cdp_url: str, headless: bool = True):
         self.cdp_url = cdp_url

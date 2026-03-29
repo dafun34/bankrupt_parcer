@@ -17,6 +17,7 @@ services:
   app:
     build:
       context: .
+    network_mode: host
     env_file:
       - .env
     environment:
