@@ -26,7 +26,7 @@ async def main():
 
     logger.info(f"Loaded {len(values)} INNs")
 
-    async with ChromeConnector(cdp_url="http://localhost:9222") as chrome:
+    async with ChromeConnector(cdp_url=settings.CHROME_CDP_URL) as chrome:
         service = BankruptcyService(chrome)
         await service.process_inns(values)
 

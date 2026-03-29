@@ -1,13 +1,4 @@
 services:
-  chrome:
-    image: selenium/standalone-chrome:latest
-    ports:
-      - "4444:4444" # Port for the Selenium Grid Hub (remote connection)
-      - "9222:9222" # Port for VNC viewer (optional, for viewing the browser GUI)
-    shm_size: 2g # Recommended to use host's shared memory
-    environment:
-      - VNC_ENABLE=true # Enable VNC
-      - VNC_NO_PASSWORD=true # Set to true for no password access, adjust as needed
   db:
     image: postgres:15-alpine
     environment:

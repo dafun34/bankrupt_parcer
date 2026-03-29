@@ -3,7 +3,7 @@ import asyncio
 import random
 
 class ChromeConnector:
-    def __init__(self, cdp_url: str = "http://localhost:9222", headless: bool = True):
+    def __init__(self, cdp_url: str, headless: bool = True):
         self.cdp_url = cdp_url
         self.headless = headless
         self.playwright = None

@@ -18,7 +18,8 @@ class Settings(BaseSettings):
     # input file
     INPUT_FILE_PATH: str = Field(
         description="Path to the input Excel file with INNs, depends base dir path")
-
+    # chrome
+    CHROME_CDP_URL: str = Field(description="URL for Chrome DevTools Protocol")
     @property
     def postgres_connection_string(self) -> str:
         """Формирование строки подключения к PostgreSQL."""
